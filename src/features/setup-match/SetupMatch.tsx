@@ -16,13 +16,18 @@ import { useMemo, useState } from "react";
 import { addLiveMatch } from "../live/liveSlice";
 import { getRandomPieces } from "../../utils/rand";
 import { LiveMatch } from "../../types";
+import { setMatchDialogStatus } from "../tournament/tournamentSlice";
 
-export function SetupMatch({ open }: { open: boolean }) {
+export function SetupMatch() {
   const [nextPlayer, setNextPlayer] = useState<string | null>(null);
   const [opponent, setOpponent] = useState<string | null>(null);
 
   const standings = useAppSelector((state) => state.standings.players);
   const dispatch = useAppDispatch();
+
+  const dialogStatus = useAppSelector(
+    (state) => state.tournament.matchDialogStatus
+  );
 
   const allPlayers = Object.keys(standings);
 
@@ -44,11 +49,12 @@ export function SetupMatch({ open }: { open: boolean }) {
           [piece2]: opponent,
         } as unknown as LiveMatch)
       );
+      dispatch(setMatchDialogStatus("close"));
     }
   };
 
   return (
-    <Dialog open={open}>
+    <Dialog open={dialogStatus === "open"}>
       <DialogTitle alignSelf="center">Setup Match</DialogTitle>
       <DialogContent>
         <DialogContentText>

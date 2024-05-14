@@ -2,7 +2,7 @@ export type MatchOutcome = "win" | "loss" | "draw";
 
 export type TournamentStatus = "pending" | "live" | "finished";
 
-export type TournamentDialogStatus = "open" | "close";
+export type DialogStatus = "open" | "close";
 
 export type Match = {
   opponent: string;
